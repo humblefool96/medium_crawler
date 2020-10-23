@@ -6,6 +6,10 @@ const taskList = [
 	'https://medium.com'
 ];
 
+const getDomainAndPath = (url) => {
+	
+}
+
 const promise = (url) => new Promise((resolve, reject) => {
 	scrapeWeb(url)
 		.then((urlList) => {
@@ -13,7 +17,7 @@ const promise = (url) => new Promise((resolve, reject) => {
 		})
 })
 
-var UrlScraperEngine = function() {
+var UrlScraperEngine = function () {
 	const queue = new AsyncQueue(taskList, 5);
 	queue.run(promise);
 }
