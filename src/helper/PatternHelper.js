@@ -13,4 +13,6 @@ const checkMediumUrl = (url) => {
     return mediumPattern.test(url);
 }
 
-module.exports = { checkMediumUrl, checkValidUrl };
+const checkNotSignInPage = (url) => !url.includes('m/signin?');
+
+module.exports = { checkMediumUrl, checkValidUrl, checkNotSignInPage };
