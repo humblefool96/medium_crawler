@@ -3,9 +3,11 @@ const env = require('./config/dev');
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
+const mongoSave = require('./src/engine/urlParserEngine');
 
 var app = express();
 var server = http.createServer(app);
+var route = require('./src/Routers/routing');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -32,14 +34,18 @@ mongoose.connect(env.mongoConnectionString, option, (err) => {
   }
 });
 
+app.use('/crawl', route);
+// app.get('/getData', (req, res) => {
+//   console.log('We are building it, please wait');
+//   res.send({
+//     'data': "emtpy"
+//   })
+// });
 
-app.get('/getData', (req, res) => {
-  console.log('We are building it, please wait');
-  res.send({
-    'data': "emtpy"
-  })
+app.post('/post', async (req, res) => {
+  await mongoSave();
+  res.send('successfull');
 });
-
 
 app.set('port', (env.port || 80));
 
