@@ -1,7 +1,7 @@
 var AsyncQueue = function (tasks = [], concurrency = 1) {
     this.total = tasks.length;
     this.todo = tasks;
-    this.running = 0;
+    this.running = -2;
     this.count = concurrency;
 
     AsyncQueue.prototype.canRunNext = function () {
@@ -10,20 +10,23 @@ var AsyncQueue = function (tasks = [], concurrency = 1) {
 
     AsyncQueue.prototype.run = function (scrapeCallback) {
         while (this.canRunNext()) {
+            this.running++;
             const currUrl = this.todo.shift();
             scrapeCallback(currUrl)
                 .then((res) => {
+                    console.log(res);
                     this.running--;
-                    this.run();
+                    this.run(scrapeCallback);
                 })
-            this.running++;
+
+            console.log(this.running);
             if (this.running >= this.count) {
-                console.error('Bug in code, running value should never exceed 4');
+                console.log('Bug in code, running value should never exceed 4');
             }
         }
     }
 
-    AsyncQueue.prototype.addTask = function (task) {
+    AsyncQueue.prototype.addTask = function (task, scrapeCallback) {
         this.todo.push(task);
     }
 }

@@ -12,7 +12,7 @@ var urlSchema = new Schema({
     default: 0
   },
   parameters: [
-    { type: String }
+    { type: String | Number }
   ],
   createDate: {
     type: Date,

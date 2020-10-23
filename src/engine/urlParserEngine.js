@@ -27,7 +27,8 @@ const checkValid = function (url) {
 const promise = (curUrl) => new Promise((resolve, reject) => {
 	scrapeWeb(curUrl)
 		.then((urlList) => {
-			console.log('processing url : ' + curUrl);
+			if (urlList) {
+				console.log('processing url : ' + curUrl);
 			processedUrl.add(curUrl); // add current url to processed list
 			for (let url of urlList) {
 				// if host is absent, the it belongs to medium, so add medium website before url
@@ -53,6 +54,8 @@ const promise = (curUrl) => new Promise((resolve, reject) => {
 				processedUrlTillPath[curUrlTillPath] = curUrlParsed;
 			}
 			saveAndUpateDb(processedUrlTillPath[curUrlTillPath]);
+			resolve('Done processing: ' + curUrl);
+			}
 		})
 });
 
